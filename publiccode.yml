@@ -1,0 +1,56 @@
+# This repository adheres to the publiccode.yml standard by including this 
+# metadata file that makes public software easily discoverable.
+# More info at https://github.com/italia/publiccode.yml
+
+publiccodeYmlVersion: '0.2'
+applicationSuite: e-procurement GT-SUAM
+categories:
+  - procurement
+description:
+  it:
+    features:
+      - Pubblicazione di avvisi, bandi esiti e atti
+      - Pubblicazione di programmi triennali e annuali dei LL.PP.
+      - Pubblicazione di programmi biennali di beni e servizi
+    genericName: e-procurement platform
+    longDescription: |
+      L'applicazione permette di pubblicare i dati degli atti e dei programmi come add-on del sito dell'Osservatorio regionale dei contratti pubblici, acquisendo le informazioni direttamente dai servizi (API) del servizio SCP Servizio Contratti Pubblici del Ministero delle infrastrutture e della mobilità sostenibili.
+      Vengono pubblicati i dati di tutte le Amministrazioni del territorio regionale.
+    shortDescription: Pubblicazione di avvisi, bandi esiti e atti e dei Programmi
+usedBy:
+  - Regione Marche
+developmentStatus: stable
+it:
+  conforme:
+    gdpr: false
+    lineeGuidaDesign: false
+    misureMinimeSicurezza: false
+    modelloInteroperabilita: false
+  countryExtensionVersion: '0.2'
+  piattaforme:
+    anpr: false
+    cie: false
+    pagopa: false
+    spid: false
+  riuso:
+    codiceIPA: r_marche
+legal:
+  license: EUPL-1.2
+  mainCopyrightOwner: Maggioli S.p.A.
+  repoOwner: Regione Marche
+localisation:
+  availableLanguages:
+    - it
+  localisationReady: false
+maintenance:
+  contractors:
+    - name: MAGGIOLI SPA
+      until: '2021-12-31'
+      website: 'https://www.maggioli.com'
+  type: contract
+name: Pubblicazioni
+platforms:
+  - web
+releaseDate: '2021-10-15'
+softwareType: standalone/web
+url: 'https://github.com/regione-marche/e-procurement-Pubblicazioni.git'
