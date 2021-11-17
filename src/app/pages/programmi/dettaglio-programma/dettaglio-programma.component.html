@@ -1,0 +1,70 @@
+<div class="loader theme-showcase" *ngIf="! isDataReady">
+  <div class="loading-mask"></div>
+  <div class="loading-text">Caricamento in corso...</div>  
+</div>
+
+<div class="error-div" *ngIf="isDataReady && error">
+  <div class="alert-danger">
+    Si è verificato un errore, si prega di riprovare.
+  </div> 
+</div>
+
+<div *ngIf="isDataReady && !error">
+  <div class="detail-section-title">Scheda programma</div>
+  <div class="detail-element">
+    <div class="detail-element-title">Dati generali</div>
+    <div class="col-12" *ngIf = "detailData.name != null ">
+      <p>Ente : <b>{{detailData.name}}</b></p>
+    </div>
+    <div class="col-12" *ngIf = "detailData.description != null ">
+      <p>Titolo : <b>{{detailData.description}}</b></p>
+    </div>
+    <div class="col-12" *ngIf = "detailData.rup != null ">
+      <p>Responsabile del programma : <b>{{detailData.rup}}</b></p>
+    </div>
+  </div>
+  <div class="detail-element" *ngIf = "detailData.adozione != null ">
+      <div class="detail-element-title">Adozione</div>
+      <div class="col-12" *ngIf = "detailData.adozione.numeroProvvedimento != null ">
+        <p>Numero provvedimento : <b>{{detailData.adozione.numeroProvvedimento}}</b></p>
+      </div>
+      <div class="col-12" *ngIf = "detailData.adozione.dataPubblicazione != null ">
+        <p>Data pubblicazione : <b>{{detailData.adozione.dataPubblicazione}}</b></p>
+      </div>
+      <div class="col-12" *ngIf = "detailData.adozione.dataProvvedimento != null ">
+        <p>Data provvedimento : <b>{{detailData.adozione.dataProvvedimento}}</b></p>
+      </div>
+      <div class="col-12" *ngIf = "detailData.adozione.documento != null ">
+        <a [href]="sanitize(detailData.adozione.documento.url)" target="_blank" ><b>{{detailData.adozione.documento.titolo}}</b></a>        
+      </div>
+  </div>
+    <div class="detail-element" *ngIf = "detailData.approvazione != null ">
+      <div class="detail-element-title">Approvazione</div>
+      <div class="col-12" *ngIf = "detailData.approvazione.numeroProvvedimento != null ">
+        <p>Numero provvedimento :  <b>{{detailData.approvazione.numeroProvvedimento}}</b></p>
+      </div>
+      <div class="col-12" *ngIf = "detailData.approvazione.dataPubblicazione != null ">
+        <p>Data pubblicazione :  <b>{{detailData.approvazione.dataPubblicazione}}</b></p>
+      </div>
+      <div class="col-12" *ngIf = "detailData.approvazione.dataProvvedimento != null ">
+        <p>Data provvedimento :  <b>{{detailData.approvazione.dataProvvedimento}}</b></p>
+      </div>
+      <div class="col-12" *ngIf = "detailData.approvazione.documento != null ">          
+        <a [href]="sanitize(detailData.approvazione.documento.url)" target="_blank"> <b>{{detailData.approvazione.documento.titolo}}</b></a>
+      </div>
+  </div>
+  <div class="detail-element">
+    <div class="detail-element-title">Documento PDF</div>
+    <div class="col-12" >          
+      <a href="javascript:void(0);" (click)="scaricaDoc('Pdf')" >Scarica PDF</a>
+    </div>
+  </div>
+  <div class="detail-element">    
+    <div class="detail-element-title">Documento Open Data</div>      
+    <div class="col-12" >          
+        <a href="javascript:void(0);" (click)="scaricaDoc('Xml')" >Scarica Open Data</a>
+    </div>
+  </div>
+ 
+</div>
+<a class="back-link" href="javascript:void(0);" (click)="indietro()">Torna alla lista</a>

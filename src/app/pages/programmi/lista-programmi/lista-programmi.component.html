@@ -1,0 +1,78 @@
+<div class="loader theme-showcase" *ngIf="! isDataReady">
+    <div class="loading-mask"></div>
+    <div class="loading-text">Caricamento in corso...</div>  
+</div>
+
+<div class="error-div" *ngIf="isDataReady && error">
+  <div class="alert-danger">
+    Si è verificato un errore, si prega di riprovare.
+  </div> 
+</div>
+
+<div *ngIf="isDataReady && !error">
+
+  
+  <div class="list-section-title">Elenco programmi triennali/annuali</div>  
+  <div class="list-section-title">Programmi trovati {{listaProgrammi.total}}</div>  
+
+  <div *ngIf="listaProgrammi.data.length != 0">
+    <div *ngFor="let programma of listaProgrammi.data">
+    
+        <div class="list-element-programmi">
+                    
+          <a  href="javascript:void(0);" (click)="dettaglio(programma.id)">
+             <p class ="list-element-title">{{programma.name}}</p>
+              <p>{{programma.short_description}}</p>
+          </a>
+        </div>
+        
+    </div>
+    <nav aria-label="navigation">
+      <ul class="pagination justify-content-center">
+        <li class="page-item disabled" *ngIf="paginaCorrente ==1">
+          <a class="page-link" href="javascript:void(0);" tabindex="-1">Precedente</a>
+        </li>
+        <li class="page-item" *ngIf="paginaCorrente >1">
+          <a class="page-link" href="javascript:void(0);" (click)="pagelink(paginaCorrente -1)">Precedente</a>
+        </li>
+        <li class="page-item" *ngIf="paginaCorrente >4">
+          <a class="page-link" href="javascript:void(0);" (click)="pagelink(paginaCorrente -4)">...</a>
+        </li>
+        <li class="page-item" *ngIf="paginaCorrente >3">
+          <a class="page-link" href="javascript:void(0);" (click)="pagelink(paginaCorrente -3)">{{paginaCorrente -3}}</a>
+        </li>
+        <li class="page-item" *ngIf="paginaCorrente >2">
+          <a class="page-link" href="javascript:void(0);" (click)="pagelink(paginaCorrente -2)">{{paginaCorrente -2}}</a>
+        </li>
+        <li class="page-item" *ngIf="paginaCorrente >1">
+          <a class="page-link" href="javascript:void(0);" (click)="pagelink(paginaCorrente -1)">{{paginaCorrente -1}}</a>
+        </li>
+        <li class="page-item active">
+          <span class="page-link">
+            {{paginaCorrente}}
+            <span class="sr-only">(current)</span>
+          </span>
+        </li>
+        <li class="page-item" *ngIf="totalePagine - paginaCorrente >1">
+          <a class="page-link" href="javascript:void(0);" (click)="pagelink(paginaCorrente+1)">{{paginaCorrente +1}}</a>
+        </li>
+        <li class="page-item" *ngIf="totalePagine - paginaCorrente >2">
+            <a class="page-link" href="javascript:void(0);" (click)="pagelink(paginaCorrente+2)">{{paginaCorrente +2}}</a>
+        </li>
+        <li class="page-item" *ngIf="totalePagine - paginaCorrente >3">
+            <a class="page-link" href="javascript:void(0);" (click)="pagelink(paginaCorrente+3)">{{paginaCorrente +3}}</a>
+        </li>
+        <li class="page-item" *ngIf="totalePagine - paginaCorrente >4">
+            <a class="page-link" href="javascript:void(0);" (click)="pagelink(paginaCorrente+4)">...</a>
+        </li>
+        <li class="page-item" *ngIf="totalePagine - paginaCorrente >0">
+            <a class="page-link" href="javascript:void(0);" (click)="pagelink(paginaCorrente+1)">Successivo</a>
+        </li>
+        <li class="page-item disabled" *ngIf="totalePagine - paginaCorrente < 1">
+            <a class="page-link" href="javascript:void(0);" tabindex="-1">Successivo</a>
+        </li>
+      </ul>
+    </nav>
+  </div>  
+</div>
+<a  href="javascript:void(0);" (click)="indietro()">Torna alla ricerca</a>

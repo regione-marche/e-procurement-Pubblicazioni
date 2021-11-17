@@ -1,0 +1,78 @@
+
+<div *ngIf="isDataReady">
+   
+    <div *ngIf="errors.length > 0">
+        <div class="alert-danger" *ngFor="let error of errors">
+            {{error}}
+        </div>
+    </div> 
+
+    <div class="search-section">
+        <div class="search-section-title">Ricerca programmi</div>    
+        <div class="form-row" *ngIf="filtriRegione">
+            <div class="form-label col-3" >Regione:</div>
+            <div class="col-7" >
+                <select [(ngModel)]="formData.regioneSA" (change)="updateProvince()">
+                    <option value="">Seleziona regione</option>
+                    <option [value]="regione.code" *ngFor="let regione of listaRegioni">{{regione.value}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row" *ngIf="filtriProvincia"> 
+            <div class="form-label col-3" >Provincia: </div>
+            <div class="col-7">    
+                <select [(ngModel)]="formData.provinciaSA">
+                    <option value="">Seleziona provincia</option>
+                    <option [value]="provincia.code" *ngFor="let provincia of listaProvince">{{provincia.value}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-label col-3" >
+                Tipologia programma: 
+            </div>
+            <div class="col-7" >    
+                <select [(ngModel)]="formData.tipoProg">
+                    <option value="">Tutti</option>
+                    <option [value]="tipoProg.code" *ngFor="let tipoProg of tipiProg">{{tipoProg.value}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row" *ngIf="profiloCommittente === false">
+            <div class="form-label col-3" >
+            Denominazione ente: 
+            </div>
+            <div class="col-7">
+                <p-autoComplete [(ngModel)]="formData.stazioneAppaltante"  [autoHighlight]="true" [suggestions]="saNames" (completeMethod)="filterNameSA($event,formData.stazioneAppaltante)" [size]="30" [minLength]="1">
+                </p-autoComplete>
+            </div>
+        </div>
+        <div class="form-row" *ngIf="filtroCfEnte">
+            <div class="form-label col-3" >CF ente:</div>
+            <div class="col-7">
+                <p-autoComplete [(ngModel)]="formData.codiceFiscaleSA" [autoHighlight]="true" [suggestions]="saCfs" (completeMethod)="filterCfSA($event,formData.codiceFiscaleSA)" [size]="30" [minLength]="1">
+                </p-autoComplete>              
+            </div>
+          </div>
+        <div  class="form-row">
+            <div class="form-label col-3" >
+            Anno iniziale: 
+            </div>
+            <div class="col-7">
+                <input type="text" class="form-control" [(ngModel)]="formData.anno">
+            </div>
+        </div>
+        <div class="form-row">      
+            <div class="form-label col-3" >Pubblicato dopo il:</div>
+            <div class="col-3" >
+                <input type="date" datetime="dd--MM-yyyy" class="form-control" min={{minDateFilter}} [(ngModel)]="formData.pubblicatoDopoIl">
+            </div>
+            <div class="form-label col-1" >Prima del:</div>
+            <div class="col-3" >
+                <input type="date" datetime="yyyy-MM-dd HH:mm:ss" class="form-control" min={{minDateFilter}} [(ngModel)]="formData.pubblicatoPrimaDel">
+            </div>
+         </div>
+        <button class="button" (click)="cerca()">Cerca</button>
+        <button class="button" (click)="pulisci()">Reimposta</button>
+    </div>
+</div>

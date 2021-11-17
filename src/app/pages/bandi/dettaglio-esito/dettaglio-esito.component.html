@@ -1,0 +1,155 @@
+<div class="loader theme-showcase" *ngIf="! isDataReady">
+    <div class="loading-mask"></div>
+    <div class="loading-text">Caricamento in corso...</div>  
+  </div>
+  
+  <div class="error-div" *ngIf="isDataReady && error">
+    <div class="alert-danger">
+      Si è verificato un errore, si prega di riprovare.
+    </div> 
+  </div>
+  
+  <div *ngIf="isDataReady && !error">
+
+    <div class="detail-section-title">Visualizzazione Esito Servizi</div>  
+
+    <div class="detail-section-subtitle">Stazione appaltante</div>
+    <div class="col-12" *ngIf = "detailData.ente != null ">
+      <p>Denominazione ente: <b>{{detailData.ente}}</b></p>
+    </div>
+    <div class="col-12" *ngIf = "detailData.cfente != null ">
+      <p>codice fiscale: <b>{{detailData.cfente}}</b></p>
+    </div>
+
+    <div class="detail-section-subtitle">Oggetto dell'appalto</div>
+    <div class="col-12" *ngIf = "detailData.oggetto != null ">
+      <p>Descrizione: <b>{{detailData.oggetto}}</b></p>
+    </div>
+    <div class="col-12" *ngIf = "detailData.rup != null ">
+      <p>Responsabile del procedimento: <b>{{detailData.rup}}</b></p>
+    </div>
+    <div class="col-12" *ngIf = "detailData.settore != null ">
+      <p>Settore: <b>{{detailData.settore}}</b></p>
+    </div>
+    <div class="col-12" *ngIf = "detailData.realizzazione != null ">
+      <p>Modalità di realizzazione: <b>{{detailData.realizzazione}}</b></p>
+    </div>
+
+    <div class="detail-section-subtitle">Importo complessivo a base di gara (IVA esclusa)</div>
+    <div class="col-12" *ngIf = "detailData.importoTotale != null ">
+      <p><b>{{detailData.importoTotale | currency :'EUR'}}</b></p>
+    </div>
+
+    <div class="detail-section-subtitle">Lotti affidati</div>
+
+    <div *ngIf="! visualizzaLotti">
+        <a  href="javascript:void(0);" (click)="enableVisualizzaLotti()">VISUALIZZA LOTTI</a>    
+    </div>
+    
+    <div *ngIf="visualizzaLotti">
+
+        <div class="detail-element" *ngFor="let lotto of detailData.lotti">
+            <div class="detail-section-subtitle">Lotto numero {{lotto.numero}}</div>
+            <div class="col-12" *ngIf = "lotto.oggetto != null ">
+                <p>Oggetto: <b>{{lotto.oggetto}}</b></p>
+            </div>
+            <div class="col-12" *ngIf = "lotto.cig != null ">
+                <p>CIG: <b>{{lotto.cig}}</b></p>
+            </div>
+            <div class="col-12" *ngIf = "lotto.cup != null ">
+                <p>CUP: <b>{{lotto.cup}}</b></p>
+            </div>
+            <div class="col-12" *ngIf = "lotto.importoLotto != null ">
+                <p>Importo del lotto a base di gara compresi gli oneri per la sicurezza (IVA esclusa): <b>{{lotto.importoLotto | currency :'EUR'}}</b></p>
+            </div>
+            <div class="col-12" *ngIf = "lotto.importoSicurezza != null ">
+                <p>Importo oneri sicurezza: <b>{{lotto.importoSicurezza | currency :'EUR'}}</b></p>
+            </div>
+            <div class="col-12" *ngIf = "lotto.tipoAppalto != null ">
+                <p>Tipologia appalto: <b>{{lotto.tipoAppalto}}</b></p>
+            </div>
+            <div class="col-12" *ngIf = "lotto.tipoProcedura != null ">
+                <p>Procedura: <b>{{lotto.tipoProcedura}}</b></p>
+            </div>
+            <div class="col-12" *ngIf = "lotto.cpv != null ">
+                <p>CPV: <b>{{lotto.cpv}}</b></p>
+            </div>
+            <div class="col-12" *ngIf = "lotto.urlProfiloComm != null ">            
+                <p>Profilo di committente: <a [href]="sanitize(lotto.urlProfiloComm)" target="_blank"><b>{{lotto.urlProfiloComm}}</b></a></p>
+            </div>
+            <div class="col-12" *ngIf = "lotto.criterioAggiudicazione != null ">
+                <p>Criterio di aggiudicazione: <b>{{lotto.criterioAggiudicazione}}</b></p>
+            </div>    
+            <div class="col-12" *ngIf = "lotto.luogoEsecuzione != null ">
+                <p>Luogo di esecuzione dei lavori: <b>{{lotto.luogoEsecuzione}}</b></p>
+            </div>
+        </div>
+    </div>
+    <div class="detail-section-subtitle">Pubblicità dell'esito</div>
+    <div class="detail-element">
+        <div class="col-12" *ngIf = "detailData.esito.tipoDocumento != null ">
+            <p><b>{{detailData.esito.tipoDocumento}}</b></p>
+        </div>
+        <div class="col-12" *ngIf = "detailData.esito.eventualeSpecificazione != null ">
+            <p>Descrizione: <b>{{detailData.esito.eventualeSpecificazione}}</b></p>
+        </div>
+        <div class="col-12" *ngIf = "detailData.esito.dataPubblicazione != null ">
+            <p>Data pubblicazione: <b>{{detailData.esito.dataPubblicazione}}</b></p>
+        </div>
+        <div class="col-12" *ngIf = "detailData.esito.dataScadenza != null ">
+            <p>Data scadenza: <b>{{detailData.esito.dataScadenza}}</b></p>
+        </div>
+        <div class="col-12" *ngIf = "detailData.esito.dataDecreto != null ">
+            <p>Data decreto: <b>{{detailData.esito.dataDecreto}}</b></p>
+        </div>
+        <div class="col-12" *ngIf = "detailData.esito.dataProvvedimento != null ">
+            <p>Data provvedimento: <b>{{detailData.esito.dataProvvedimento}}</b></p>
+        </div>
+        <div class="col-12" *ngIf = "detailData.esito.numeroProvvedimento != null ">
+            <p>Numero provvedimento: <b>{{detailData.esito.numeroProvvedimento}}</b></p>
+        </div>   
+        <div class="col-12" *ngIf = "detailData.esito.dataStipula != null ">
+            <p>Data stipula: <b>{{detailData.esito.dataStipula}}</b></p>
+        </div>   
+        <div class="col-12" *ngIf = "detailData.esito.numeroRepertorio != null ">
+            <p>Numero repertorio: <b>{{detailData.esito.numeroRepertorio}}</b></p>
+        </div>   
+        <div class="col-12" *ngIf = "detailData.esito.ribassoAggiudicazione != null ">
+            <p>Ribasso aggiudicazione: <b>{{detailData.esito.ribassoAggiudicazione}} %</b>&nbsp;&nbsp;<u title="Il ribasso indicato in caso di esito su più lotti è da intendere come calcolato da ((Somma importo base asta dei lotti aggiudicati) - (Somma importo aggiudicazione lotti)/ (Somma importo base asta lotti aggiudicati))">Info</u></p>
+        </div>   
+        <div class="col-12" *ngIf = "detailData.esito.offertaAumento != null ">
+            <p>Offerta aumento: <b>{{detailData.esito.offertaAumento}}</b></p>
+        </div>           
+        <div class="col-12" *ngIf = "detailData.esito.importoAggiudicazione != null ">
+            <p>Importo aggiudicazione: <b>{{detailData.esito.importoAggiudicazione | currency:'EUR'}}</b></p>
+        </div>   
+        <div class="col-12" *ngIf = "detailData.esito.dataAggiudicazione != null ">
+            <p>Data aggiudicazione: <b>{{detailData.esito.dataAggiudicazione}}</b></p>
+        </div>
+        <div class="col-12" *ngIf = "detailData.cig != null ">
+            <p>Lista CIG: <b>{{detailData.cig}}</b></p>
+        </div>  
+        <div class="detail-section-subtitle">Documenti</div>
+        <div class="col-12" *ngFor="let documento of detailData.esito.documenti">
+            <a [href]="sanitize(documento.url)" target="_blank">{{documento.titolo}}</a>
+        </div>
+        <div class="detail-section-subtitle"  *ngIf = "detailData.esito.aggiudicatari.length != 0 ">Aggiudicato a</div>
+        <div *ngIf = "detailData.esito.aggiudicatari.length != 0">
+          <div class="col-12" *ngFor="let aggiudicatario of detailData.esito.aggiudicatari"  >
+              <p>{{aggiudicatario.name}} {{aggiudicatario.ruolo}}</p>
+          </div>
+        </div>
+
+
+        <div class="detail-section-subtitle">Trasmissione</div>
+        <div class="col-12" *ngFor="let pubblicazione of detailData.esito.pubblicazioni">
+            <p>{{pubblicazione}}</p>
+        </div>
+    </div>
+    <div class="detail-element">
+        <a href="javascript:void(0);" (click)="detailBando()">Consulta tutti gli atti e documenti</a> 
+    </div>  
+</div>
+
+
+<a class="back-link" href="javascript:void(0);" (click)="indietro()">Torna alla lista</a>

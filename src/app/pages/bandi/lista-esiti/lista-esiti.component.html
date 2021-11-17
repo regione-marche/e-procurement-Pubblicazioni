@@ -1,0 +1,83 @@
+<div class="loader theme-showcase" *ngIf="! isDataReady">
+    <div class="loading-mask"></div>
+    <div class="loading-text">Caricamento in corso...</div>  
+</div>
+
+<div class="error-div" *ngIf="isDataReady && error">
+    <div class="alert-danger">
+      Si è verificato un errore, si prega di riprovare.
+    </div> 
+</div>
+  
+<div *ngIf="isDataReady && !error">
+  <div *ngIf="listaEsiti.data.length == 0">
+    <div class="alert-warning">Nessun record trovato</div>
+  </div>
+
+  <div class="list-section-title">Elenco esiti</div>  
+  <div class="list-section-title">Esiti trovati {{listaEsiti.total}}</div> 
+    
+  <div *ngIf="listaEsiti.data.length != 0">
+
+    <div *ngFor="let esito of listaEsiti.data">
+  
+      <div class="list-element-bandi"> 
+            <p class ="list-element-title"><a href="javascript:void(0);" (click)="dettaglio(esito.idGara, esito.numeroPubblicazione)">{{esito.oggetto}}</a></p>
+            <p>Cig: <b>{{esito.cig}}</b></p>
+            <p>Ente: <b>{{esito.ente}}</b>&nbsp; <img *ngIf="esito.storico != null" title="{{esito.storicoData}}" class="info-icon" src="assets/images/info-icon.png"></p>
+            <p>Importo: <b>{{esito.importo | currency :'EUR'}}</b></p>
+            <p>Provincia: <b>{{esito.provincia}}</b></p>
+            <p>Data di pubblicazione: <b>{{esito.dataPubblicazione}}</b></p>
+          
+      </div>
+    
+    </div>
+    <nav aria-label="navigation">
+      <ul class="pagination justify-content-center">
+        <li class="page-item disabled" *ngIf="paginaCorrente ==1">
+          <a class="page-link" href="javascript:void(0);" tabindex="-1">Precedente</a>
+        </li>
+        <li class="page-item" *ngIf="paginaCorrente >1">
+          <a class="page-link" href="javascript:void(0);" (click)="pagelink(paginaCorrente -1)">Precedente</a>
+        </li>
+        <li class="page-item" *ngIf="paginaCorrente >4">
+          <a class="page-link" href="javascript:void(0);" (click)="pagelink(paginaCorrente -4)">...</a>
+        </li>
+        <li class="page-item" *ngIf="paginaCorrente >3">
+          <a class="page-link" href="javascript:void(0);" (click)="pagelink(paginaCorrente -3)">{{paginaCorrente -3}}</a>
+        </li>
+        <li class="page-item" *ngIf="paginaCorrente >2">
+          <a class="page-link" href="javascript:void(0);" (click)="pagelink(paginaCorrente -2)">{{paginaCorrente -2}}</a>
+        </li>
+        <li class="page-item" *ngIf="paginaCorrente >1">
+          <a class="page-link" href="javascript:void(0);" (click)="pagelink(paginaCorrente -1)">{{paginaCorrente -1}}</a>
+        </li>
+        <li class="page-item active">
+          <span class="page-link">
+            {{paginaCorrente}}
+            <span class="sr-only">(current)</span>
+          </span>
+        </li>
+        <li class="page-item" *ngIf="totalePagine - paginaCorrente >1">
+          <a class="page-link" href="javascript:void(0);" (click)="pagelink(paginaCorrente+1)">{{paginaCorrente +1}}</a>
+        </li>
+        <li class="page-item" *ngIf="totalePagine - paginaCorrente >2">
+            <a class="page-link" href="javascript:void(0);" (click)="pagelink(paginaCorrente+2)">{{paginaCorrente +2}}</a>
+        </li>
+        <li class="page-item" *ngIf="totalePagine - paginaCorrente >3">
+            <a class="page-link" href="javascript:void(0);" (click)="pagelink(paginaCorrente+3)">{{paginaCorrente +3}}</a>
+        </li>
+        <li class="page-item" *ngIf="totalePagine - paginaCorrente >4">
+            <a class="page-link" href="javascript:void(0);" (click)="pagelink(paginaCorrente+4)">...</a>
+        </li>
+        <li class="page-item" *ngIf="totalePagine - paginaCorrente >0">
+            <a class="page-link" href="javascript:void(0);" (click)="pagelink(paginaCorrente+1)">Successivo</a>
+        </li>
+        <li class="page-item disabled" *ngIf="totalePagine - paginaCorrente < 1">
+            <a class="page-link" href="javascript:void(0);" >Successivo</a>
+        </li>
+      </ul>
+    </nav>
+  </div>  
+</div>
+<a  href="javascript:void(0);" (click)="indietro()">Torna alla ricerca</a>

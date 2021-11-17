@@ -1,0 +1,185 @@
+
+<div *ngIf="isDataReady">
+  
+  <div *ngIf="errors.length > 0">
+    <div *ngFor="let error of errors">
+      <div class="alert-danger">
+        {{error}}
+      </div>
+    </div>
+  </div>
+  <div class="search-section">
+    <div class="search-section-title">Ricerca appalti</div>
+    <div class="form-row">  
+        <div class="radiobuttons">  
+          <div class="form-row">        
+              <div class="radio">
+                <input type="radio" [ngModel]="formData.ricercaIn" value="0" (click)="setRicercaIn('0')">Avvisi
+              </div>
+          </div>
+          <div class="form-row">
+            
+            <div class="radio">
+              <input type="radio" [ngModel]="formData.ricercaIn" value="1" (click)="setRicercaIn('1')">Bandi
+            </div>
+            <div class="radio">
+              <input type="radio" [ngModel]="formData.ricercaIn" value="2" (click)="setRicercaIn('2')">Esiti
+            </div>
+            <div class="radio" *ngIf="hasAtti">
+              <input type="radio" [ngModel]="formData.ricercaIn" value="3" (click)="setRicercaIn('3')">Atti
+            </div>
+          </div>
+        </div>
+        <div class="baloon">
+          {{testoBaloon}}
+        </div>
+      </div>
+      <div #tipiAttoRow class="form-row" id="tipiAttoRow" *ngIf="formData.ricercaIn === '3'">
+        <div class="form-label col-3" >Tipologia atto:</div>
+        <div class="col-3" >
+          <select [(ngModel)]="formData.tipoAtto">            
+            <option [value]="atto.code" *ngFor="let atto of atti">{{atto.value}}</option>
+          </select>
+        </div> 
+      </div>
+
+      <div #statoRow class="form-row" id="statoRow">
+          <div class="form-label col-3" >Stato:</div>
+          <div class="col-3" >
+            <select [(ngModel)]="formData.stato">            
+              <option [value]="stato.code" *ngFor="let stato of listaStati">{{stato.value}}</option>
+            </select>
+          </div> 
+      </div>
+      
+      <div class="form-row" *ngIf="filtriRegione">
+        <div class="form-label col-3">Regione:</div>
+        <div class="col-7" >
+          <select [(ngModel)]="formData.regioneSA"  (change)="updateProvince()">
+              <option value="">Seleziona regione</option>
+              <option [value]="regione.code" *ngFor="let regione of listaRegioni">{{regione.value}}</option>
+          </select>
+        </div>
+      </div>      
+      <div class="form-row" *ngIf="filtriProvincia">
+        <div class="form-label col-3" >Provincia:</div>
+        <div class="col-7" >
+          <select [(ngModel)]="formData.provinciaSA">
+              <option value="">Seleziona provincia</option>
+              <option [value]="provincia.code" *ngFor="let provincia of listaProvince">{{provincia.value}}</option>
+          </select>
+        </div>
+    </div>
+    <div class="form-row" *ngIf="profiloCommittente === false">
+      <div class="form-label col-3" >Denominazione ente:</div>
+      <div class="col-7">
+        <p-autoComplete [(ngModel)]="formData.stazioneAppaltante"   [autoHighlight]="true" [suggestions]="saNames" (completeMethod)="filterNameSA($event,formData.stazioneAppaltante)" [size]="30" [minLength]="1">
+        </p-autoComplete>
+
+      </div>
+    </div>
+
+    <div class="form-row" *ngIf="filtroCfEnte">
+      <div class="form-label col-3" >CF ente:</div>
+      <div class="col-7">
+        <p-autoComplete [(ngModel)]="formData.codiceFiscaleSA" [autoHighlight]="true" [suggestions]="saCfs" (completeMethod)="filterCfSA($event,formData.codiceFiscaleSA)" [size]="30" [minLength]="1">
+        </p-autoComplete>
+      </div>
+    </div>
+    <div #tipoAppaltoRow class="form-row" id="tipoAppaltoRow">
+        <div class="form-label col-3" >Tipo di appalto:</div>
+        <div class="col-3" >   
+          <select [(ngModel)]="formData.tipoBando">
+              <option [value]="tipoAppalto.code" *ngFor="let tipoAppalto of listaTipiAppalto">{{tipoAppalto.value}}</option>
+          </select>
+        </div>
+    </div>
+    <div #tipologiaRow class="form-row" id="tipologiaRow">
+        <div class="col-10" >
+            <b>Tipologia - classificazione Common Procurement Vocabulary - CPV:</b>
+          <input type="text" class="form-control" [(ngModel)]="formData.codiceCpv">      
+          <tree-root [nodes]="nodes" [options]="options" (initialized)="onTreeInitialize($event)" (activate)="onNodeExpanded($event)" ></tree-root>
+        </div>
+    </div>
+  
+    <div #categoriaRow class="form-row" id="categoriaRow">
+        <div class="form-label col-3" >Categoria:</div>
+        <div class="col-7" >  
+          <select [(ngModel)]="formData.categoria">
+              <option [value]="categoria.code" *ngFor="let categoria of listaCategorie">{{categoria.value}}</option>
+          </select>
+        </div> 
+    </div>
+    <div #importoRow class="form-row" id="importoRow">
+
+      <div class="form-label col-3 form-external-label" >Importo </div>
+      <div class="col-3" >
+        <div class="form-internal-label">Da:</div>
+        <input type="text" class="form-control" [(ngModel)]="formData.importoDa">
+      </div>
+   
+      <div class="form-label col-1" ></div>
+      <div class="col-3" >
+        <div class="form-internal-label">a:</div>
+        <input type="text" class="form-control" [(ngModel)]="formData.importo">
+      </div>
+     
+
+  </div>
+    <div class="form-row">
+      <div class="form-label col-3 form-external-label" >Pubblicazione</div>
+      <div class="col-3" >
+          <div class="form-internal-label">Da data:</div>
+          <input type="date" datetime="dd--MM-yyyy" min={{minDateFilter}} class="form-control" [(ngModel)]="formData.pubblicatoDopoIl">
+      </div>
+      <div class="form-label col-1" ></div>
+      <div class="col-3" >
+          <div class="form-internal-label">a data:</div>
+          <input type="date" datetime="yyyy-MM-dd HH:mm:ss" min={{minDateFilter}} class="form-control" [(ngModel)]="formData.pubblicatoPrimaDel">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-label col-3 form-external-label" >Trasmissione sul sistema</div>
+      <div class="col-3" >
+          <div class="form-internal-label">Da data:</div>
+          <input type="date" datetime="dd--MM-yyyy" min={{minDateFilter}} class="form-control" [(ngModel)]="formData.trasmessoDopoIl">
+      </div>
+      <div class="form-label col-1" ></div>
+      <div class="col-3" >
+          <div class="form-internal-label">a data:</div>
+          <input type="date" datetime="yyyy-MM-dd HH:mm:ss" min={{minDateFilter}} class="form-control" [(ngModel)]="formData.trasmessoPrimaDel">
+      </div>
+    </div>
+
+    <div class="form-row"> 
+      <div class="form-label col-3" >Oggetto:</div>
+      <div class="col-7" >
+        <input type="text" class="form-control" [(ngModel)]="formData.oggetto">
+      </div>
+    </div>  
+    <div class="form-row">
+        <div class="form-label col-3" >CIG:</div>
+        <div class="col-7" >
+          <input type="text" class="form-control" [(ngModel)]="formData.cig">
+        </div>
+    </div>
+  
+
+    <div #sceltaContraente class="form-row" >
+      <div class="form-label col-3" >Procedura scelta contraente:</div>
+      <div class="col-3" >
+        <select [(ngModel)]="formData.sceltaContr">            
+          <option [value]="tipo.code" *ngFor="let tipo of listaScelteContraenti">{{tipo.value}}</option>
+        </select>
+      </div> 
+    </div>
+
+    <div class="form-row">
+      <button class="button" (click)="cerca()">Cerca</button>
+      <button class="button" (click)="pulisci()">Pulisci</button>
+    </div>
+    
+  </div>
+</div>
+
+

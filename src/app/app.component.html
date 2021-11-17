@@ -1,0 +1,42 @@
+<app-header></app-header>
+<div class="container">
+
+    <div id="hamburgerMenu">
+        <button class="navbar-toggler hamburgerbutton" type="button"
+        aria-controls="navbarNavAltMarkup" [attr.aria-expanded]="show"
+        (click)= "toggleNavbar()"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup" [ngClass]="{'show': show}">
+            <div class="menu-item">
+                <a class="nav-item nav-link" routerLinkActive="active" [routerLink]="['programmi/ricerca']">Programmazione lavori, beni e servizi</a>
+            </div>
+            <div class="menu-item">
+                <a class="nav-item nav-link" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active" [routerLink]="['bandi/ricerca']">Bandi, avvisi ed esiti di gara</a>
+            </div>            
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-3">
+            <div class="navbar-nav menu" id="desktopMenu">
+                <div class="menu-item">
+                    <a class="nav-item nav-link" routerLinkActive="active" [routerLink]="['programmi/ricerca']">Programmazione lavori, beni e servizi</a>
+                </div>
+                <div class="menu-item">
+                    <a class="nav-item nav-link" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active" [routerLink]="['bandi/ricerca']">Bandi, avvisi ed esiti di gara</a>
+                </div>
+            </div>
+        </div>       
+        <div class="col-9">
+            <breadcrumb [allowBootstrap]="true"></breadcrumb>
+            <div class="content"><router-outlet></router-outlet></div>
+        </div>
+    </div>
+</div>
+
+
+<app-footer class="mt-auto"></app-footer>
+

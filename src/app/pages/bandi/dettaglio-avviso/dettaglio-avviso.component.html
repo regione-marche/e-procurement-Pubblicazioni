@@ -1,0 +1,55 @@
+<div class="loader theme-showcase" *ngIf="! isDataReady">
+  <div class="loading-mask"></div>
+  <div class="loading-text">Caricamento in corso...</div>  
+</div>
+
+<div class="error-div" *ngIf="isDataReady && error">
+  <div class="alert-danger">
+    Si è verificato un errore, si prega di riprovare.
+  </div> 
+</div>
+
+<div *ngIf="isDataReady && !error">
+
+    <div class="detail-section-title">Avviso</div>  
+
+    <div class="detail-section-subtitle">Stazione appaltante</div>
+    <div class="col-12" *ngIf = "detailData.ente != null ">
+      <p>Denominazione ente: <b>{{detailData.ente}}</b></p>
+    </div>
+    <div class="col-12" *ngIf = "detailData.cfente != null ">
+      <p>codice fiscale: <b>{{detailData.cfente}}</b></p>
+    </div>
+  
+    <div class="detail-section-subtitle">Oggetto</div>
+    <div class="col-12" *ngIf = "detailData.tipologia != null ">
+      <p>Tipo di avviso: <b>{{detailData.tipologia}}</b></p>
+    </div>
+    <div class="col-12" *ngIf = "detailData.descrizione != null ">
+      <p>Descrizione: <b>{{detailData.descrizione}}</b></p>
+    </div>
+    <div class="col-12" *ngIf = "detailData.cig != null ">
+        <p>CIG: <b>{{detailData.cig}}</b></p>
+      </div>
+    <div class="col-12" *ngIf = "detailData.rup != null ">
+      <p>RUP: <b>{{detailData.rup}}</b></p>
+    </div>
+    <div class="col-12" *ngIf = "detailData.data != null ">
+      <p>Data dell'avviso:<b>{{detailData.data}}</b></p>
+    </div>
+    <div class="col-12" *ngIf = "detailData.dataScadenza != null ">
+      <p>Data scadenza: <b>{{detailData.dataScadenza}}</b></p>
+    </div>
+    
+    <div class="detail-section-subtitle">Documentazione dell'avviso</div>
+    <div *ngFor="let documento of detailData.documenti">
+        <div class="col-12" *ngIf = "documento.url != null">
+          <p><a [href]="sanitize(documento.url)" target="_blank">{{documento.titolo}}</a></p>
+        </div>
+    </div>
+    <div class="detail-section-subtitle">Trasmissione</div>
+    <div class="col-12" *ngFor="let pubblicazione of detailData.pubblicazioni">
+        <p>{{pubblicazione}}</p>
+    </div>
+  </div>
+  <a class="back-link" href="javascript:void(0);" (click)="indietro()">Torna alla lista</a>
